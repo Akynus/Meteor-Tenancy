@@ -1,16 +1,18 @@
 import React from 'react';
 import {useTracker} from 'meteor/react-meteor-data';
-import {LinksCollection, Link} from '../api/links';
+import {PersonCollection} from "/imports/api/persons";
+import {Person} from "/imports/person.entity";
 
 export const Info = () => {
-    const links = useTracker(() => {
-        return LinksCollection.find().fetch();
+    const persons = useTracker(() => {
+        return PersonCollection.find().fetch();
     });
 
-    const makeLink = (link: Link) => {
+    const makePerson = (person: Person, index:number) => {
+        console.log(person);
         return (
-            <li key={link._id}>
-                <a href={link.url} target="_blank">{link.title}</a>
+            <li key={index}>
+                <a href={person.name} target="_blank">{String(person._id)}: {person.name} - {person.fullName}</a>
             </li>
         );
     }
@@ -18,7 +20,7 @@ export const Info = () => {
     return (
         <div>
             <h2>Learn Meteor!</h2>
-            <ul>{links.map(makeLink)}</ul>
+            <ul>{persons.map(makePerson)}</ul>
         </div>
     );
 };

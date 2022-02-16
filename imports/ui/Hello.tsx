@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
 import {Meteor} from "meteor/meteor";
+import {Person} from "/imports/person.entity";
 
 export const Hello = () => {
-    const [db, setDb] = useState('db');
+    const [db] = useState('db');
     React.useEffect(() => {
-        const sub = Meteor.subscribe('test', {db: db});
+        const sub = Meteor.subscribe('persons', {db: db});
         return () => sub.stop();
     }, [db]);
 
     const increment = () => {
-        setDb("test-one");
+        Meteor.call("person-save",new Person({name:"Matheus", fullName:"Matheus Leite"}))
     };
 
     return (
